@@ -3,19 +3,26 @@ import { Text, View, StyleSheet, Image, Button } from 'react-native';
 
 export default function Home({navigation}) {
   return (
-    <View>
-      <Text>
-        Welcome to the anon messaging board
+    <View styles={styles.container}>
+      <Text style={styles.header}>
+        Community Comments
       </Text>
-      <View style={styles.buttons}>
-        <Button title="About" 
-                onPress = {() =>
-                  navigation.navigate('About', { name: 'Jane', greeting:'Hi!' })
-                } />
-        <Button title="Your Feed"
-                onPress = {() => 
-                  navigation.navigate('Feed')
-                } />
+      <Text style={styles.paragraph}>
+        Welcome to the random messaging board
+      </Text>
+      <View>
+        <View style={styles.button}>
+          <Button title="About" 
+                  onPress = {() =>
+                    navigation.navigate('About', { name: 'Jane', greeting:'Hi!' })
+                  } />
+        </View>
+        <View style={styles.button}>
+          <Button title="Your Feed"
+                  onPress = {() => 
+                    navigation.navigate('Feed')
+                  } />
+        </View>
       </View>
     </View>
   );
@@ -25,21 +32,21 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row',
     padding: 24,
   },
-  paragraph: {
-    margin: 24,
-    marginTop: 0,
-    fontSize: 14,
+  header: {
+    fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
+    flex: 1,
+    paddingBottom: 10
   },
-  logo: {
-    height: 128,
-    width: 128,
+  paragraph: {
+    textAlign: 'center',
+    paddingBottom: 10
   },
-  buttons: {
-    flexDirection: 'row',
-    justifyContent: 'space-around'
+  button: {
+    paddingBottom: 5
   }
 });

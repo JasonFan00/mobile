@@ -5,16 +5,15 @@ export default function Feed() {
   return (
     <View style={styles.container}>
         <Image
-        style={{flex: 1}}
           source={{uri: "https://cdn.pixabay.com/photo/2014/11/30/14/11/cat-551554__340.jpg"}}
           style={{width: "100%", height: "100%"}}
         />
 
         <TextInput
-      style={{flex: 1}}
+      style={{flex: 1, paddingBottom: 10, paddingTop: 10}}
             placeholder="Add a new comment"
         />
-        
+      
       <Text style={styles.paragraph}>
         Text comment 1
       </Text>
@@ -27,7 +26,6 @@ export default function Feed() {
       <Text style={styles.paragraph}>
         Text comment 4
       </Text>
-      <Image style={styles.logo} source={require('../assets/snack-icon.png')} />
     </View>
   );
 }
@@ -37,6 +35,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 24,
+    flexDirection: 'column'
   },
   paragraph: {
     margin: 24,
@@ -45,8 +44,4 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  logo: {
-    height: 128,
-    width: 128,
-  }
 });
