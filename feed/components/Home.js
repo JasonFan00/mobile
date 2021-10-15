@@ -14,13 +14,19 @@ export default function Home({navigation}) {
         <View style={styles.button}>
           <Button title="About" 
                   onPress = {() =>
-                    navigation.navigate('About', { name: 'Jane', greeting:'Hi!' })
+                    navigation.navigate('About')
                   } />
         </View>
         <View style={styles.button}>
           <Button title="Your Feed"
                   onPress = {() => 
                     navigation.navigate('Feed')
+                  } />
+        </View>
+        <View style={styles.button}>
+          <Button title="Profile"
+                  onPress = {() => 
+                    navigation.navigate('Profile', {'username':'Anon'})
                   } />
         </View>
       </View>
