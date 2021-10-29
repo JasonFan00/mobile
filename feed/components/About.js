@@ -8,9 +8,9 @@ export default function About() {
         About Us
       </Text>
       <Text style={styles.paragraph}>
-        This is an anonymous messaging board where topics will be sorted by category.
+        This is a quick post-it note taking app.
       </Text>
-      <Image style={styles.logo} source={{uri: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/close-up-of-cat-wearing-sunglasses-while-sitting-royalty-free-image-1571755145.jpg"}} />
+      <Image style={styles.logo} source={require('../assets/sticky-note-solid.svg')} />
     </View>
   );
 }
@@ -36,5 +36,6 @@ const styles = StyleSheet.create({
   logo: {
     height: 128,
     width: 128,
+    flex: 1
   }
 });
