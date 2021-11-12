@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import { Text, TextInput, View, StyleSheet, Image, Button } from 'react-native';
+import { Text, View, StyleSheet, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {storeData} from '../utils/storage';
+import { Title, Button, TextInput } from 'react-native-paper';
 
 export default function Comments(props) {
   const [commentsData, setCommentsData] = useState([]);
@@ -59,8 +60,10 @@ export default function Comments(props) {
         />
         <Button
           onPress={() =>  {console.log("PRESSED"); return addCommentsData()}}
-          title={'Add!'}
-        />
+          
+        >
+        Add!
+        </Button>
       </View>
       {commentsData.reverse().map(ele => { 
         return(<Text style={styles.paragraph}>

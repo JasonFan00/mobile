@@ -1,100 +1,128 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
+import { SafeAreaView, FlatList, Text, View, StyleSheet, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Text, View, StyleSheet, Image, TextInput, Button } from 'react-native';
+import {storeData} from '../utils/storage';
+import ValueProvider from './ValueContext';
+import MessageContext from './MessageContext';
+import { Card, Title, Button, TextInput } from 'react-native-paper';
 
-export default function Profile(props) {
-  const imges = props.route.params.randImges;
-  const [randImg, setRandImg] = useState(imges[Math.floor(Math.random() * imges.length)]);
-  const [username, setUsername] = useState(props.route.params.username);
-  const chooseRandImg = () => {
-    setRandImg(imges[Math.floor(Math.random() * imges.length)])
+export default function Comments(props) {
+  const data = {
+    ["First Name"]: "(N/A)",
+    ["Last Name"]: "(N/A)"
   }
-
-  const storeName = async (value) => {
-      try {
-        const jsonValue = JSON.stringify(value);
-        console.log(AsyncStorage);
-        await AsyncStorage.setItem('@username1', jsonValue);
-        alert("Username saved!");
-        chooseRandImg();
-      } catch (e) {
-        console.log("error in storeData ");
-        console.log(e);
+  const [tempProfileData, setTempProfileData] = useState(data);
+  const [profileData, setProfileData] = useState(data);
+  const storageKey = "@profile2";
+  const messageData = {randomMessage: "Context Message!"};
+  const loadData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem(storageKey)
+      let data = null
+      if (jsonValue != null) {
+        data = JSON.parse(jsonValue);
+        setProfileData(data);
       }
+      console.log("LOADED", JSON.stringify(data));
+    } catch(e) {
+      console.log("error in getData");
+      console.log(e);
+      // error reading value
+    }
+  }
+  const updateProfileDataTemp = (key, val) => {
+    let newData = JSON.parse(JSON.stringify(tempProfileData));
+    newData[key] = val
+    setTempProfileData(newData);
   }
 
-  const getData = async () => {
-        try {
-          // the '@profile_info' can be any string
-          const jsonValue = await AsyncStorage.getItem('@username1')
-          let data = null
-          if (jsonValue!=null) {
-            data = JSON.parse(jsonValue);
-            setUsername(data.username);
-            console.log('Retrieved and set data' + data);
-          } else {
-            setUsername("Anonymous");
-          }
-        } catch(e) {
-          console.log("error in getData");
-          console.log(e);
-          // error reading value
-        }
+  const updateProfileDataActual = () => {
+    let newData = JSON.parse(JSON.stringify(tempProfileData));
+    setProfileData(newData);
   }
 
-  // Initialize
-  useEffect(() => {getData()}, []);
+  useEffect(() => {
+    loadData();
+  }, []);
 
+  useEffect(() => {
+    storeData(storageKey, profileData);
+  }, [profileData]);
+  
+  const Item = ({ key, val }) => (
+    <View>
+      <Text>
+        {key}:
+      </Text>
+      <TextInput
+        onChangeText={text => updateProfileDataTemp(key, text)}
+        style={styles.comment_input}
+        placeholder={val}/>
+    </View>
+  );
+
+  const renderItem = ({ key, val }) => (
+    <Item key={key, val}/>
+  );
+  
   return (
     <View style={styles.container}>
       <Text style={styles.header}>
-        {props.route.params.greetings}
+        Your Profile
       </Text>
-      <Text style={styles.paragraph}>
-        Update your username here
-      </Text>
-      <View style={styles.username_input}>
-        <TextInput placeholder={username} onChangeText={setUsername} textAlign='center'/>
+      <ValueProvider value={messageData}>
+        <View style={{paddingTop: 5}}>
+          <MessageContext subtext={<Card.Title subtitle="Subtext Container Component"/>}/>
+        </View>
+      </ValueProvider>
+      <View style={{paddingTop: 15}}>
+        {Object.entries(profileData).map(([key, value]) => {
+          console.log("Profile Data", key);
+          // Pretty straightforward - use key for the key and value for the value.
+          // Just to clarify: unlike object destructuring, the parameter names don't matter here.
+          return(
+            <View>
+              <Text>
+                {key}:
+              </Text>
+              <TextInput
+                onChangeText={text => updateProfileDataTemp(key, text)}
+                style={styles.comment_input}
+                placeholder={value}/>
+            </View>
+          );
+        })}
       </View>
-      <View style={styles.save_button}>
+      <View style={styles.add_section}>
         <Button
-            title={'save'}
-            onPress={() => {storeName({'username': username})}}
-          />
+          onPress={updateProfileDataActual}
+          title={'SAVE PROFILE!'}
+        >
+          SAVE PROFILE!
+        </Button>
       </View>
-      <Image style={styles.logo} source={{uri: randImg}} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
-    padding: 24,
+    flex: 1
+  },
+  comment_input: {
+    fontSize: 15,
+    marginTop: 15,
+    marginBottom: 15
+  },
+  add_section: {
+    paddingBottom: 20
   },
   header: {
-    fontWeight: 'bold',
-    textAlign: 'center',
     fontSize: 20,
-  },
-  username_input: {
-    paddingTop: 20
-  },
-  paragraph: {
-    margin: 24,
-    marginTop: 0,
-    fontSize: 14,
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  save_button: {
-    paddingTop: 10,
-  },
-  logo: {
-    height: 128,
-    width: 128,
-  }
 });

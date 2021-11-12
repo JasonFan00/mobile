@@ -1,14 +1,17 @@
 import React, {useState, useEffect} from 'react';
-import { Text, View, StyleSheet, Image, Button, TextInput, Alert } from 'react-native';
+import { Text, View, StyleSheet, Image, Alert } from 'react-native';
+import { Title, Button, TextInput } from 'react-native-paper';
 import {storeData} from '../utils/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Category from './Category'
+import ValueProvider from './ValueContext';
+import Profile from './Profile';
 
 export default function Home({navigation}) {
   const [addCategoryText, setAddCategoryText] = useState(null);
   const [categoryData, setCategoryData] = useState(new Map());
   const storageKey = "@data7";
-
+  
   const loadData = async () => {
     try {
        const jsonValue = await AsyncStorage.getItem(storageKey)
@@ -43,27 +46,41 @@ export default function Home({navigation}) {
 
   return (
     <View styles={styles.container}>
-      <Text style={styles.header}>
+      <Title style={styles.header}>
         Post Its
-      </Text>
+      </Title>
       <Text style={styles.paragraph}>
         Post some quick notes or random thoughts!
       </Text>
       <View>
         <View style={styles.button}>
-          <Button title="About" 
+          <Button 
+                  icon="book-open"
                   onPress = {() =>
                     navigation.navigate('About', { name: 'Jane', greeting:'Hi!' })
-                  } />
+                  } >
+            About
+          </Button>
+        </View>
+        <View style={styles.button}>
+          <Button 
+                  icon="account"
+                  onPress = {() =>
+                    navigation.navigate('Profile')
+                  } >
+            Profile
+          </Button>
         </View>
 
         <View style={styles.add_category}>
-          <TextInput placeholder="Add a new category" onChangeText={setAddCategoryText} style={{flex: 1}}/>
+          <TextInput placeholder="Add a new category" onChangeText={setAddCategoryText} style={{flex: 1}} right={<TextInput.Icon name="folder"/>}/>
           <View>
             <Button
               title={'Add!'}
               onPress={() => addCategoryData()}
-            />
+            >
+              Add!
+            </Button>
           </View>
         </View>
         <View style={styles.categories}>
@@ -85,6 +102,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingTop: 15,
     flexDirection: 'row',
+    alignItems: 'center'
   },
   header: {
     fontSize: 20,

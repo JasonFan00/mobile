@@ -1,11 +1,9 @@
-# Sample Snack app
+# Post Its!
 
-Open the `App.js` file to start writing some code. You can preview the changes directly on your phone or tablet by scanning the **QR code** or use the iOS or Android emulators. When you're done, click **Save** and share the link!
+Post Its is a quick notetaking app.  It lets a user write down notes extremely quickly, whether it's just fleeting thoughts or long rants.  Post Its is designed to be intuitive, minimalistic, and extremely fast to use, letting one get along with their day yet still having the convenience of documenting whatever they want.
 
-When you're ready to see everything that Expo provides (or if you want to use your own editor) you can **Download** your project and use it with [expo-cli](https://docs.expo.io/get-started/installation).
+![Screenshot 1](/assets/screenshot1.png?raw=true)
+![Screenshot 1](/assets/screenshot2.png?raw=true)
+![Screenshot 1](/assets/screenshot3.png?raw=true)
 
-All projects created in Snack are publicly available, so you can easily share the link to this project via link, or embed it on a web page with the `<>` button.
-
-If you're having problems, you can tweet to us [@expo](https://twitter.com/expo) or ask in our [forums](https://forums.expo.io/c/snack).
-
-Snack is Open Source. You can find the code on the [GitHub repo](https://github.com/expo/snack).
+I'm using the react native paper package for styling.  It looks good and I'm transitioning more and more of the app over to its components.  I'm using async storage to keep data persistent.  Icons also come from react native paper.  One focus is writing clean/re-usable code, with a big part of that being iterable lists that represent categories and comments.
