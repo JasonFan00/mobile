@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { Text, View, StyleSheet, Image, Alert } from 'react-native';
-import { Title, Button, TextInput } from 'react-native-paper';
+import { Title, Button, TextInput, IconButton } from 'react-native-paper';
 import {storeData} from '../utils/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Category from './Category'
@@ -84,7 +84,26 @@ export default function Home({navigation}) {
           </View>
         </View>
         <View style={styles.categories}>
-          {Object.keys(categoryData).map((key, i) => { return <Category navigation={navigation} name={key} createdDate={categoryData[key]["creation_time"]} />})}
+          {
+            Object.keys(categoryData).map((key, i) => { 
+              return (
+                  <View style={{flexDirection: 'row'}}>
+                    <View style={{flex: 2}}>
+                      <Category navigation={navigation} name={key} createdDate={categoryData[key]["creation_time"]} />
+                    </View>
+                    <View style={{flex: 1, justifyContent: 'center'}}>
+                      <IconButton
+                        icon="trash-can"
+                        onPress = {() => {
+                          const copy = JSON.parse(JSON.stringify(categoryData));
+                          delete copy[key];
+                          setCategoryData(copy);
+                        }}
+                      />
+                    </View>
+                  </View>
+                )})
+          }
         </View>
       </View>
     </View>
@@ -109,8 +128,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     flex: 1,
-    paddingBottom: 30,
-    paddingTop: 30
+    paddingTop: 10
   },
   paragraph: {
     textAlign: 'center',

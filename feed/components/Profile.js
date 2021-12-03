@@ -107,7 +107,6 @@ export default function Comments(props) {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
     flex: 1

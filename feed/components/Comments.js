@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Text, View, StyleSheet, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {storeData} from '../utils/storage';
-import { Title, Button, TextInput } from 'react-native-paper';
+import { Title, Button, TextInput, IconButton } from 'react-native-paper';
 
 export default function Comments(props) {
   const [commentsData, setCommentsData] = useState([]);
@@ -44,31 +44,40 @@ export default function Comments(props) {
   
   return (
     <View style={styles.container}>
-      <Image
-        source={source=require('../assets/sticky-note-solid.svg')}
-        style={styles.logo}
-      />
-
       <Text style={styles.header}>
         Category {props.route.params.categoryName}
       </Text>
       <View style={styles.add_section}>
         <TextInput
           onChangeText={setCurrentComment}
-          style={styles.comment_input}
           placeholder="Add a new comment"
         />
         <Button
           onPress={() =>  {console.log("PRESSED"); return addCommentsData()}}
-          
         >
         Add!
         </Button>
       </View>
       {commentsData.reverse().map(ele => { 
-        return(<Text style={styles.paragraph}>
-          {ele.comment}
-        </Text>);
+        return(
+          <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+            <View style={{flex: 3}}>
+              <Text style={styles.paragraph}>
+                {ele.comment}
+              </Text>
+            </View>
+            <View style={{flex: 1}}>
+              <IconButton
+                icon="trash-can"
+                onPress = {() => {
+                  const copy = commentsData.slice();
+                  copy.splice(copy.indexOf(ele), 1);
+                  setCommentsData(copy);
+                }}
+              />
+            </View>
+          </View>
+        );
       })}
     </View>
   );
@@ -76,21 +85,21 @@ export default function Comments(props) {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column',
-    flex: 1
+
   },
   comment_input: {
-    fontSize: 15,
     marginTop: 15,
     marginBottom: 15
   },
   add_section: {
-    paddingBottom: 20
+    paddingBottom: 20,
+    paddingLeft: 24,
+    paddingRight: 24
   },
   header: {
     fontSize: 20,
+    paddingBottom: 15,
+    paddingTop: 10,
     fontWeight: 'bold',
     textAlign: 'center',
   },
@@ -99,7 +108,6 @@ const styles = StyleSheet.create({
     width: 128,
   },
   paragraph: {
-    margin: 24,
     marginTop: 0,
     fontSize: 14,
     fontWeight: 'bold',
